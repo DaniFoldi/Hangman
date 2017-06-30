@@ -576,6 +576,7 @@ def guess_letter():
   global word_guessed
   print("Please input your guess")
   char = input("")
+  char = char.lower()
   if char not in alphabet:
     print("Incorrect guess")
     guess_letter()
@@ -633,6 +634,7 @@ def choose_difficulty():
   global selected_difficulty
   print("Please select a difficulty level: easy / medium / hard")
   selected_difficulty = input("")
+  selected_difficulty = selected_difficulty.lower()
   if selected_difficulty not in difficulties:
     print("Difficulty not available")
     choose_difficulty()
