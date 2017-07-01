@@ -490,15 +490,25 @@ hard_words = [
 version = "v1.4"
 
 #COLORED PRINTING (ONLY UNIX-BASED)
+
 class color:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+  pink = "\033[95m"
+  blue = "\033[94m"
+  green = "\033[92m"
+  yellow = "\033[93m'"
+  red = "\033[91m"
+  bold = "\033[1m"
+  underline = "\033[4m"
+  end = "\033[0m"
+#class color:
+#    HEADER = '\033[95m'
+#    OKBLUE = '\033[94m'
+#    OKGREEN = '\033[92m'
+#    WARNING = '\033[93m'
+#    FAIL = '\033[91m'
+#    ENDC = '\033[0m'
+#    BOLD = '\033[1m'
+#    UNDERLINE = '\033[4m'
 
 #HANGMANIMATION
 
@@ -582,10 +592,10 @@ def choose_word():
     choose_word()
 
 def error(text):
-  print(color.FAIL + text + color.ENDC)
+  print(color.red + text + color.end)
 
 def header(text):
-  print(color.HEADER + text + color.ENDC)
+  print(color.pink + color.bold + text + color.end)
 
 def move_cursor():
   asd = 5
@@ -644,9 +654,9 @@ def print_word():
 def print_guesses():
   for letter in alphabet:
     if letter in characters_guessed:
-      print(color.OKGREEN + letter + color.ENDC, end = "")
+      print(color.green + letter + color.end, end = "")
     else:
-      print(color.OKBLUE + letter + color.ENDC, end = "")
+      print(color.blue + letter + color.end, end = "")
     if letter != alphabet[len(alphabet) - 1]:
       print(" ", end = "")
   print()
@@ -691,12 +701,12 @@ while True:
     print_state()
     
   if win():
-    print("You won the game! Congrats!")
+    print(color.bold + "You won the game! Congrats!" + color.end)
     games_won += 1
     games_played += 1
   elif lose():
-    print("You lost.")
-    print("The word was: " + word)
+    print(color.bold + "You lost." + color.end)
+    print("The word was: " + color.red + word + color.end)
     games_lost += 1
     games_played += 1
   print_stats()
