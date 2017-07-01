@@ -36,7 +36,6 @@ easy_words = [
   "bracelet", 
   "branch", 
   "bread", 
-  "bunk bed", 
   "bunny", 
   "bus", 
   "camera", 
