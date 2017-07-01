@@ -625,11 +625,22 @@ def print_word():
     if i < len(word_guessed):
       print(" ", end = "")
   print()
+
+def print_guesses():
+  for letter in alphabet:
+    if letter in characters_guessed:
+      print(color.OKGREEN + letter + color.ENDC, end = "")
+    else:
+      print(color.OKBLUE + letter + color.ENDC, end = "")
+    if letter != alphabet[len(alphabet) - 1]:
+      print(" ", end = "")
+  print()
   
 def print_state():
   hangman_state()
   print_lives()
   print_word()
+  print_guesses()
   
 def lose():
   if lives_left <= 0:
