@@ -635,14 +635,14 @@ def print_lives():
   print("Lives: " + str(lives_left))
 
 def print_stats():
-  print("Difficulty: " + selected_difficulty)
-  print("Games played: " + str(games_played))
-  print("Games won: " + str(games_won))
-  print("Games lost: " + str(games_lost))
+  print("Difficulty: " + color.green + selected_difficulty+ color.end)
+  print("Games played: " + color.green + str(games_played)+ color.end)
+  print("Games won: " + color.green + str(games_won)+ color.end)
+  print("Games lost: " + color.green + str(games_lost)+ color.end)
   if games_lost == 0:
-    print("W/L Ratio: -")
+    print("W/L Ratio: " + color.green + "-" + color.end)
   else:
-    print("W/L Ratio: " + str(games_won / games_lost))
+    print("W/L Ratio: " + color.green + str(games_won / games_lost)+ color.end)
   
 def print_word():
   for i in range(0, len(word_guessed)):
@@ -697,6 +697,8 @@ def choose_difficulty():
 header("Welcome to the Ultimate Hangman " + version)
 choose_difficulty()
 while True:
+  print()
+  print()
   reset_game()
   choose_word()
   print_state()
