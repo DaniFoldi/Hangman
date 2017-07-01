@@ -485,6 +485,10 @@ hard_words = [
   "zombie"
 ]
 
+#VERSION
+
+version = "v1.4"
+
 #COLORED PRINTING (ONLY UNIX-BASED)
 class color:
     HEADER = '\033[95m'
@@ -511,6 +515,9 @@ hangman_states = [
   [" ⎾‾‾‾‾‾‾‾‾⏋", " |        😀", " |      / | \\", " |        |",  " |        /\\", " |", "_⏊___________"]
   ]
 
+#MAXIMUM LIVES
+
+lives_max = 10
 
 #STATS
 
@@ -522,7 +529,7 @@ games_lost = 0
 
 difficulties = ["easy", "medium", "hard"]
 
-#alphabet
+#ALPHABET
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
@@ -568,11 +575,17 @@ def choose_word():
   elif selected_difficulty == difficulties[2]:
     word = hard_words[random.randint(0, len(hard_words) - 1)]
     word_characters = list(word)
-    reset_word
+    reset_word()
   else:
-    print("Incorrect difficulty selected")
+    error("Incorrect difficulty selected")
     choose_difficulty()
     choose_word()
+
+def error(text):
+  print(color.FAIL + text + color.ENDC)
+
+def header(text):
+  print(color.HEADER + text + color.ENDC)
 
 def move_cursor():
   asd = 5
@@ -592,11 +605,11 @@ def guess_letter():
   char = input("")
   char = char.lower()
   if char not in alphabet:
-    print("Incorrect guess")
+    error("Incorrect guess")
     guess_letter()
   else:
     if char in characters_guessed:
-      print("Letter already guessed")
+      error("Letter already guessed")
       guess_letter()
     else:
       char_in_word = False
@@ -651,9 +664,9 @@ def lose():
     return False
 
 def hangman_state():
-  if lives_left < 10:
+  if lives_left < lives_max:
     for i in range(0, len(hangman_states[0])):
-      print(hangman_states[9 - lives_left][i])
+      print(hangman_states[lives_max - 1 - lives_left][i])
   
 def choose_difficulty():
   global selected_difficulty
@@ -661,12 +674,12 @@ def choose_difficulty():
   selected_difficulty = input("")
   selected_difficulty = selected_difficulty.lower()
   if selected_difficulty not in difficulties:
-    print("Difficulty not available")
+    error("Difficulty not available")
     choose_difficulty()
   
 #MAIN LOGIC
 
-print("Welcome to the Ultimage Hangman v1.2.")
+header("Welcome to the Ultimate Hangman " + version)
 choose_difficulty()
 while True:
   reset_game()
