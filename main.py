@@ -537,7 +537,7 @@ games_lost = 0
 
 #DIFFICULTIES
 
-difficulties = ["easy", "medium", "hard"]
+difficulties = ["Easy", "Medium", "Hard"]
 
 #ALPHABET
 
@@ -680,9 +680,14 @@ def hangman_state():
   
 def choose_difficulty():
   global selected_difficulty
-  print("Please select a difficulty level: easy / medium / hard")
+  print("Please select a difficulty level: ")
+  for i in range(0, len(difficulties)):
+    print(color.green + difficulties[i] + color.end, end = "")
+    if i < len(difficulties) - 1:
+      print(" / ", end = "")
+  print()
   selected_difficulty = input("")
-  selected_difficulty = selected_difficulty.lower()
+  selected_difficulty = selected_difficulty.capitalize()
   if selected_difficulty not in difficulties:
     error("Difficulty not available")
     choose_difficulty()
