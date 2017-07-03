@@ -190,16 +190,15 @@ def choose_difficulty():
   print("Please select a difficulty level: " + color.green)
   print((color.end + " / " + color.green).join(difficulties), end = "")
   print(color.end)
-  selected_difficulty = input("")
-  selected_difficulty = selected_difficulty.capitalize()
-  if selected_difficulty not in difficulties:
-    error("Difficulty not available")
-    choose_difficulty()
-  else:
+  selected_difficulty = input("").capitalize()
+  if selected_difficulty in difficulties:
     with open((selected_difficulty.lower() + ".csv"), newline = "") as word_file:
-      reader =  csv.reader(word_file, delimiter = " ", quotechar = "|")
+      reader = csv.reader(word_file, delimiter = " ", quotechar = "|")
       for option in reader:
         word_list.append(option[0])
+  else:
+    error("Difficulty not available")
+    choose_difficulty()
 
   
 #MAIN LOGIC
