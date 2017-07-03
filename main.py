@@ -70,7 +70,6 @@ alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n"
 selected_difficulty = ""
 word = ""
 characters_guessed = []
-word_characters = []
 word_guessed = []
 lives_left = 0
 
@@ -85,20 +84,16 @@ def reset_word():
 def reset_game():
   global lives_left
   global word
-  global word_characters
   global characters_guessed
   global word_guessed
   lives_left = 10
   word = ""
-  word_characters = []
   characters_guessed = []
 
 def choose_word():
   global word
-  global word_characters
   if selected_difficulty in difficulties:
     word = word_list[random.randint(0, len(word_list) - 1)]
-    word_characters = list(word)
     reset_word()
   else:
     error("Incorrect difficulty selected")
@@ -122,7 +117,6 @@ def win():
   
 def guess_letter():
   global characters_guessed
-  global word_characters
   global lives_left
   global word_guessed
   print("Please input your guess")
@@ -137,8 +131,8 @@ def guess_letter():
       guess_letter()
     else:
       char_in_word = False
-      for i in range(0, len(word_characters)):
-        if word_characters[i] == char:
+      for i in range(0, len(word)):
+        if word[i] == char:
           word_guessed[i] = char
           char_in_word = True
       if not char_in_word:
