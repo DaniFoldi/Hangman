@@ -143,16 +143,16 @@ def print_lives():
   print("Lives: " + str(lives_left))
 
 def print_stats():
-  print("Difficulty: " + color.green + selected_difficulty + color.end)
-  print("Games played: " + color.green + str(games_played) + color.end)
-  print("Games won: " + color.green + str(games_won) + color.end)
-  print("Games lost: " + color.green + str(games_lost) + color.end)
+  print("Difficulty: " + color.green + color.bold + selected_difficulty + color.end)
+  print("Games played: " + color.green + color.bold + str(games_played) + color.end)
+  print("Games won: " + color.green + color.bold + str(games_won) + color.end)
+  print("Games lost: " + color.green + color.bold +  str(games_lost) + color.end)
   if games_lost == 0:
-    print("W/L Ratio: " + color.green + "-" + color.end)
+    print("W/L Ratio: " + color.green + color.bold + "-" + color.end)
   else:
     precision = getcontext().prec
     getcontext().prec = 2
-    print("W/L Ratio: " + color.green + str(Decimal(games_won) / Decimal(games_lost))+ color.end)
+    print("W/L Ratio: " + color.green + color.bold + str(Decimal(games_won) / Decimal(games_lost))+ color.end)
     getcontext().prec = precision
   
 def print_word():
@@ -194,7 +194,8 @@ def choose_difficulty():
   print("Please select a difficulty level: " + color.green)
   print((color.end + " / " + color.green).join(difficulties), end = "")
   print(color.end)
-  selected_difficulty = input("").capitalize()
+  selected_difficulty = input("")
+  selected_difficulty = selected_difficulty.capitalize()
   if selected_difficulty in difficulties:
     with open((selected_difficulty.lower() + ".csv"), newline = "") as word_file:
       reader = csv.reader(word_file, delimiter = " ", quotechar = "|")
@@ -229,4 +230,5 @@ if __name__ == "__main__":
       print("The word was: " + color.red + word + color.end)
       games_lost += 1
       games_played += 1
+    print()
     print_stats()
