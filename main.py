@@ -59,7 +59,7 @@ games_lost = 0
 
 #DIFFICULTIES
 
-difficulties = ["Easy", "Medium", "Hard"]
+difficulties = ["easy", "medium", "hard"]
 
 #ALPHABET
 
@@ -196,12 +196,12 @@ def choose_difficulty():
   global selected_difficulty
   print("Please select a difficulty level: ")
   for i in range(0, len(difficulties)):
-    print(color.green + difficulties[i] + color.end, end = "")
+    print(color.green + difficulties[i].capitalize() + color.end, end = "")
     if i < len(difficulties) - 1:
       print(" / ", end = "")
   print()
   selected_difficulty = input("")
-  selected_difficulty = selected_difficulty.capitalize()
+  selected_difficulty = selected_difficulty.lower()
   if selected_difficulty not in difficulties:
     error("Difficulty not available")
     choose_difficulty()
