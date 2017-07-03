@@ -11,6 +11,7 @@
 from __future__ import print_function
 import random
 import csv
+from decimal import *
 
 #WORD LIST
 
@@ -149,7 +150,10 @@ def print_stats():
   if games_lost == 0:
     print("W/L Ratio: " + color.green + "-" + color.end)
   else:
-    print("W/L Ratio: " + color.green + str(games_won / games_lost)+ color.end)
+    precision = getcontext().prec
+    getcontext().prec = 2
+    print("W/L Ratio: " + color.green + str(Decimal(games_won) / Decimal(games_lost))+ color.end)
+    getcontext().prec = precision
   
 def print_word():
   for i in range(0, len(word_guessed)):
