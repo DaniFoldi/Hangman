@@ -18,7 +18,7 @@ word_list = []
 
 #VERSION
 
-version = "v1.4"
+version = "v1.6"
 
 #COLORED PRINTING (ONLY UNIX-BASED)
 
@@ -45,7 +45,7 @@ hangman_states = [
   [" ⎾‾‾‾‾‾‾‾‾⏋", " |        🙂", " |      / | \\", " |        |",  " |",            " |", "_⏊___________"],
   [" ⎾‾‾‾‾‾‾‾‾⏋", " |        🙁", " |      / | \\", " |        |",  " |        /",   " |", "_⏊___________"],
   [" ⎾‾‾‾‾‾‾‾‾⏋", " |        😱", " |      / | \\", " |        |",  " |        /\\", " |", "_⏊___________"]
-  ]
+]
 
 #MAXIMUM LIVES
 
@@ -59,7 +59,7 @@ games_lost = 0
 
 #DIFFICULTIES
 
-difficulties = ["easy", "medium", "hard"]
+difficulties = ["Easy", "Medium", "Hard"]
 
 #ALPHABET
 
@@ -85,7 +85,6 @@ def reset_game():
   global lives_left
   global word
   global characters_guessed
-  global word_guessed
   lives_left = 10
   word = ""
   characters_guessed = []
@@ -107,7 +106,7 @@ def header(text):
   print(color.pink + color.bold + text + color.end)
 
 def move_cursor():
-  asd = 5
+  noting_yet = 2.0
 
 def win():
   for char in word_guessed:
@@ -183,28 +182,24 @@ def lose():
 
 def hangman_state():
   if lives_left < lives_max:
-    for i in range(0, len(hangman_states[0])):
-      print(hangman_states[lives_max - 1 - lives_left][i])
+    for state in hangman_states[lives_max - 1 - lives_left]:
+      print(state)
   
 def choose_difficulty():
   global selected_difficulty
-  print("Please select a difficulty level: ")
-  for i in range(0, len(difficulties)):
-    print(color.green + difficulties[i].capitalize() + color.end, end = "")
-    if i < len(difficulties) - 1:
-      print(" / ", end = "")
-  print()
+  print("Please select a difficulty level: " + color.green)
+  print((color.end + " / " + color.green).join(difficulties), end = "")
+  print(color.end)
   selected_difficulty = input("")
-  selected_difficulty = selected_difficulty.lower()
+  selected_difficulty = selected_difficulty.capitalize()
   if selected_difficulty not in difficulties:
     error("Difficulty not available")
     choose_difficulty()
   else:
-    with open((selected_difficulty + ".csv"), newline = "") as word_file:
+    with open((selected_difficulty.lower() + ".csv"), newline = "") as word_file:
       reader =  csv.reader(word_file, delimiter = " ", quotechar = "|")
       for option in reader:
         word_list.append(option[0])
-    print(word_list)
 
   
 #MAIN LOGIC
