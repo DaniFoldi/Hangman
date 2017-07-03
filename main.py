@@ -79,9 +79,11 @@ lives_left = 0
 
 #FUNCTIONS
 
-def print_right(text):
+def print_right(text, length):
+  if length <= 0:
+    length = len(text)
   rows, columns = os.popen('stty size', 'r').read().split()
-  for i in range(0, int(columns) - len(text) + 13):
+  for i in range(0, int(columns) - length):
     print(" ", end = "")
   print(text)
 
@@ -154,18 +156,18 @@ def print_lives():
     print(" ", end = "")
   print(str(lives_left))
 
-def print_stats():
-  print_right("Difficulty: " + color.green + color.bold + selected_difficulty + color.end)
-  print_right("Games played:    " + color.green + color.bold + str(games_played) + color.end)
-  print_right("Games won:    " + color.green + color.bold + str(games_won) + color.end)
-  print_right("Games lost:    " + color.green + color.bold +  str(games_lost) + color.end)
-  if games_lost == 0:
-    print_right("W/L Ratio:    " + color.green + color.bold + "-" + color.end)
-  else:
-    precision = getcontext().prec
-    getcontext().prec = 2
-    print_right("W/L Ratio:    " + color.green + color.bold + str(Decimal(games_won) / Decimal(games_lost))+ color.end)
-    getcontext().prec = precision
+def print_stats(stats):
+  max_length = 0
+  for stat in stats:
+    if len(stat[1]) > max_length:
+      max_length = len(stat[1])
+  for stat in stats:
+    display = stat[0]
+    for i in range(0, max_length - len(stat[1])):
+      display += " "
+    length = len(stat[0]) + max_length
+    display += color.green + color.bold + stat[1] + color.end
+    print_right(display, length)
   
 def print_word():
   print(" ".join(word_guessed), end = "")
@@ -244,4 +246,12 @@ if __name__ == "__main__":
         games_lost += 1
         games_played += 1
       print()
-      print_stats()
+      stats = [["Difficulty: ", selected_difficulty], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["W/L Ratio: "]]
+      if games_lost == 0:
+        stats[4].append("-")
+      else:
+        precision = getcontext().prec
+        getcontext().prec = 2
+        stats[4].append(str(Decimal(games_won) / Decimal(games_lost)))
+        getcontext().prec = precision
+      print_stats(stats)
