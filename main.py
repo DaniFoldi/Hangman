@@ -22,7 +22,7 @@ word_list = []
 
 #VERSION
 
-version = "v1.7"
+version = "v1.8"
 
 #COLORED PRINTING (ONLY UNIX-BASED)
 
@@ -88,6 +88,12 @@ def print_right(text, length):
     print(" ", end = "")
   print(text)
 
+def error(text):
+  print(color.red + text + color.end)
+
+def header(text):
+  print(color.pink + color.bold + text + color.end)
+
 def reset_word():
   global word_guessed
   word_guessed = []
@@ -102,6 +108,22 @@ def reset_game():
   word = ""
   characters_guessed = []
 
+def choose_difficulty():
+  global selected_difficulty
+  print("Please select a difficulty level: " + color.green)
+  print((color.end + " / " + color.green).join(difficulties), end = "")
+  print(color.end)
+  selected_difficulty = input("")
+  selected_difficulty = selected_difficulty.capitalize()
+  if selected_difficulty in difficulties:
+    with open((selected_difficulty.lower() + ".csv"), newline = "") as word_file:
+      reader = csv.reader(word_file, delimiter = " ", quotechar = "|")
+      for option in reader:
+        word_list.append(option[0])
+  else:
+    error("Difficulty not available")
+    choose_difficulty()
+
 def choose_word():
   global word
   if selected_difficulty in difficulties:
@@ -111,21 +133,6 @@ def choose_word():
     error("Incorrect difficulty selected")
     choose_difficulty()
     choose_word()
-
-def error(text):
-  print(color.red + text + color.end)
-
-def header(text):
-  print(color.pink + color.bold + text + color.end)
-
-def move_cursor():
-  nothing_yet = 2.0
-
-def win(word_guessed):
-  for char in word_guessed:
-    if char == "_":
-      return False
-  return True
   
 def guess_letter():
   global characters_guessed
@@ -191,6 +198,31 @@ def print_state():
   print_lives()
   print_word()
   print_guesses()
+
+def stats(selected_difficulty, games_played, games_won, games_lost, total_guesses):
+  stats = [["Difficulty: ", selected_difficulty], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["W/L Ratio: "], ["Average guesses: "]]
+  if games_lost == 0:
+    stats[4].append("-")
+  else:
+    precision = getcontext().prec
+    getcontext().prec = 2
+    stats[4].append(str(Decimal(games_won) / Decimal(games_lost)))
+    getcontext().prec = precision
+
+  if games_played == 0:
+    stats[5].append("-")
+  else:
+    precision = getcontext().prec
+    getcontext().prec = 2
+    stats[5].append(str(Decimal(total_guesses) / Decimal(games_played)))
+    getcontext().prec = precision
+  print_stats(stats)
+
+def win(word_guessed):
+  for char in word_guessed:
+    if char == "_":
+      return False
+  return True
   
 def lose(lives_left):
   if lives_left <= 0:
@@ -202,41 +234,9 @@ def hangman_state():
   if lives_left < lives_max:
     for state in hangman_states[lives_max - 1 - lives_left]:
       print(state)
-  
-def choose_difficulty():
-  global selected_difficulty
-  print("Please select a difficulty level: " + color.green)
-  print((color.end + " / " + color.green).join(difficulties), end = "")
-  print(color.end)
-  selected_difficulty = input("")
-  selected_difficulty = selected_difficulty.capitalize()
-  if selected_difficulty in difficulties:
-    with open((selected_difficulty.lower() + ".csv"), newline = "") as word_file:
-      reader = csv.reader(word_file, delimiter = " ", quotechar = "|")
-      for option in reader:
-        word_list.append(option[0])
-  else:
-    error("Difficulty not available")
-    choose_difficulty()
 
-def stats(selected_difficulty, games_played, games_won, games_lost, total_guesses):
-  stats = [["Difficulty: ", selected_difficulty], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["W/L Ratio: "], ["Average guesses: "]]
-  if games_lost == 0:
-    stats[4].append("-")
-  else:
-    precision = getcontext().prec
-    getcontext().prec = 2
-    stats[4].append(str(Decimal(games_won) / Decimal(games_lost)))
-    getcontext().prec = precision
-    
-  if games_played == 0:
-    stats[5].append("-")
-  else:
-    precision = getcontext().prec
-    getcontext().prec = 2
-    stats[5].append(str(Decimal(total_guesses) / Decimal(games_played)))
-    getcontext().prec = precision
-  print_stats(stats)
+def move_cursor():
+  nothing_yet = 2.0
 
 #MAIN LOGIC
 if __name__ == "__main__":
@@ -267,4 +267,5 @@ if __name__ == "__main__":
         games_lost += 1
         games_played += 1
       print()
+
       stats(selected_difficulty, games_played, games_won, games_lost, total_guesses)
