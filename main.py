@@ -12,6 +12,7 @@ from __future__ import print_function
 import random
 import csv
 from decimal import *
+import os
 
 #WORD LIST
 
@@ -75,6 +76,12 @@ word_guessed = []
 lives_left = 0
 
 #FUNCTIONS
+
+def print_right(text):
+  rows, columns = os.popen('stty size', 'r').read().split()
+  for i in range(0, int(columns) - len(text) + 13):
+    print(" ", end = "")
+  print(text)
 
 def reset_word():
   global word_guessed
@@ -143,16 +150,16 @@ def print_lives():
   print("Lives: " + str(lives_left))
 
 def print_stats():
-  print("Difficulty: " + color.green + color.bold + selected_difficulty + color.end)
-  print("Games played: " + color.green + color.bold + str(games_played) + color.end)
-  print("Games won: " + color.green + color.bold + str(games_won) + color.end)
-  print("Games lost: " + color.green + color.bold +  str(games_lost) + color.end)
+  print_right("Difficulty: " + color.green + color.bold + selected_difficulty + color.end)
+  print_right("Games played:    " + color.green + color.bold + str(games_played) + color.end)
+  print_right("Games won:    " + color.green + color.bold + str(games_won) + color.end)
+  print_right("Games lost:    " + color.green + color.bold +  str(games_lost) + color.end)
   if games_lost == 0:
-    print("W/L Ratio: " + color.green + color.bold + "-" + color.end)
+    print_right("W/L Ratio:    " + color.green + color.bold + "-" + color.end)
   else:
     precision = getcontext().prec
     getcontext().prec = 2
-    print("W/L Ratio: " + color.green + color.bold + str(Decimal(games_won) / Decimal(games_lost))+ color.end)
+    print_right("W/L Ratio:    " + color.green + color.bold + str(Decimal(games_won) / Decimal(games_lost))+ color.end)
     getcontext().prec = precision
   
 def print_word():
