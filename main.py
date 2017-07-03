@@ -107,7 +107,7 @@ def header(text):
   print(color.pink + color.bold + text + color.end)
 
 def move_cursor():
-  noting_yet = 2.0
+  nothing_yet = 2.0
 
 def win():
   for char in word_guessed:
@@ -122,10 +122,7 @@ def guess_letter():
   print("Please input your guess")
   char = input("")
   char = char.lower()
-  if char not in alphabet:
-    error("Incorrect guess")
-    guess_letter()
-  else:
+  if char in alphabet:
     if char in characters_guessed:
       error("Letter already guessed")
       guess_letter()
@@ -138,15 +135,18 @@ def guess_letter():
       if not char_in_word:
         lives_left -= 1
       characters_guessed.append(char)
+  else:
+    error("Incorrect guess")
+    guess_letter()
   
 def print_lives():
   print("Lives: " + str(lives_left))
 
 def print_stats():
-  print("Difficulty: " + color.green + selected_difficulty+ color.end)
-  print("Games played: " + color.green + str(games_played)+ color.end)
-  print("Games won: " + color.green + str(games_won)+ color.end)
-  print("Games lost: " + color.green + str(games_lost)+ color.end)
+  print("Difficulty: " + color.green + selected_difficulty + color.end)
+  print("Games played: " + color.green + str(games_played) + color.end)
+  print("Games won: " + color.green + str(games_won) + color.end)
+  print("Games lost: " + color.green + str(games_lost) + color.end)
   if games_lost == 0:
     print("W/L Ratio: " + color.green + "-" + color.end)
   else:
