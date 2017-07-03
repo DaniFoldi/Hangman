@@ -13,6 +13,8 @@ import random
 import csv
 from decimal import *
 import os
+import platform
+import sys
 
 #WORD LIST
 
@@ -212,27 +214,31 @@ def choose_difficulty():
   
 #MAIN LOGIC
 if __name__ == "__main__":
-  header("Welcome to the Ultimate Hangman " + version)
-  choose_difficulty()
-  while True:
-    print()
-    print()
-    reset_game()
-    choose_word()
-    print_state()
-    
-    while not(win() or lose()):
-      guess_letter()
+  if platform.system == "Windows":
+    error("Windows is not supported right now")
+    sys.exit(1)
+  else:
+    header("Welcome to the Ultimate Hangman " + version)
+    choose_difficulty()
+    while True:
+      print()
+      print()
+      reset_game()
+      choose_word()
       print_state()
       
-    if win():
-      print(color.bold + "You won the game! Congrats!" + color.end)
-      games_won += 1
-      games_played += 1
-    elif lose():
-      print(color.bold + "You lost." + color.end)
-      print("The word was: " + color.red + word + color.end)
-      games_lost += 1
-      games_played += 1
-    print()
-    print_stats()
+      while not(win() or lose()):
+        guess_letter()
+        print_state()
+        
+      if win():
+        print(color.bold + "You won the game! Congrats!" + color.end)
+        games_won += 1
+        games_played += 1
+      elif lose():
+        print(color.bold + "You lost." + color.end)
+        print("The word was: " + color.red + word + color.end)
+        games_lost += 1
+        games_played += 1
+      print()
+      print_stats()
