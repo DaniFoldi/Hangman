@@ -60,6 +60,7 @@ lives_max = 10
 games_played = 0
 games_won = 0
 games_lost = 0
+total_guesses = 0
 
 #DIFFICULTIES
 
@@ -130,6 +131,7 @@ def guess_letter():
   global characters_guessed
   global lives_left
   global word_guessed
+  global total_guesses
   print("Please input your guess")
   char = input("")
   char = char.lower()
@@ -146,6 +148,7 @@ def guess_letter():
       if not char_in_word:
         lives_left -= 1
       characters_guessed.append(char)
+      total_guesses += 1
   else:
     error("Incorrect guess")
     guess_letter()
@@ -246,12 +249,19 @@ if __name__ == "__main__":
         games_lost += 1
         games_played += 1
       print()
-      stats = [["Difficulty: ", selected_difficulty], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["W/L Ratio: "]]
-      if games_lost == 0:
+      stats = [["Difficulty: ", selected_difficulty], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["Average guesses: "], ["W/L Ratio: "]]
+      if games_played == 0:
         stats[4].append("-")
       else:
         precision = getcontext().prec
         getcontext().prec = 2
-        stats[4].append(str(Decimal(games_won) / Decimal(games_lost)))
+        stats[4].append(str(Decimal(total_guesses) / Decimal(games_played)))
+        getcontext().prec = precision
+      if games_lost == 0:
+        stats[5].append("-")
+      else:
+        precision = getcontext().prec
+        getcontext().prec = 2
+        stats[5].append(str(Decimal(games_won) / Decimal(games_lost)))
         getcontext().prec = precision
       print_stats(stats)
