@@ -156,10 +156,7 @@ def print_stats():
     getcontext().prec = precision
   
 def print_word():
-  for i in range(0, len(word_guessed)):
-    print(word_guessed[i], end = "")
-    if i < len(word_guessed):
-      print(" ", end = "")
+  print(" ".join(word_guessed), end = "")
   print()
 
 def print_guesses():
