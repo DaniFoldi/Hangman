@@ -121,7 +121,7 @@ def header(text):
 def move_cursor():
   nothing_yet = 2.0
 
-def win():
+def win(word_guessed):
   for char in word_guessed:
     if char == "_":
       return False
@@ -192,7 +192,7 @@ def print_state():
   print_word()
   print_guesses()
   
-def lose():
+def lose(lives_left):
   if lives_left <= 0:
     return True
   else:
@@ -219,7 +219,25 @@ def choose_difficulty():
     error("Difficulty not available")
     choose_difficulty()
 
-  
+def stats(selected_difficulty, games_played, games_won, games_lost, total_guesses):
+  stats = [["Difficulty: ", selected_difficulty], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["W/L Ratio: "], ["Average guesses: "]]
+  if games_lost == 0:
+    stats[4].append("-")
+  else:
+    precision = getcontext().prec
+    getcontext().prec = 2
+    stats[4].append(str(Decimal(games_won) / Decimal(games_lost)))
+    getcontext().prec = precision
+    
+  if games_played == 0:
+    stats[5].append("-")
+  else:
+    precision = getcontext().prec
+    getcontext().prec = 2
+    stats[5].append(str(Decimal(total_guesses) / Decimal(games_played)))
+    getcontext().prec = precision
+  print_stats(stats)
+
 #MAIN LOGIC
 if __name__ == "__main__":
   if platform.system == "Windows":
@@ -235,33 +253,18 @@ if __name__ == "__main__":
       choose_word()
       print_state()
       
-      while not(win() or lose()):
+      while not(win(word_guessed) or lose(lives_left)):
         guess_letter()
         print_state()
         
-      if win():
+      if win(word_guessed):
         print(color.bold + "You won the game! Congrats!" + color.end)
         games_won += 1
         games_played += 1
-      elif lose():
+      elif lose(lives_left):
         print(color.bold + "You lost." + color.end)
         print("The word was: " + color.red + word + color.end)
         games_lost += 1
         games_played += 1
       print()
-      stats = [["Difficulty: ", selected_difficulty], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["Average guesses: "], ["W/L Ratio: "]]
-      if games_played == 0:
-        stats[4].append("-")
-      else:
-        precision = getcontext().prec
-        getcontext().prec = 2
-        stats[4].append(str(Decimal(total_guesses) / Decimal(games_played)))
-        getcontext().prec = precision
-      if games_lost == 0:
-        stats[5].append("-")
-      else:
-        precision = getcontext().prec
-        getcontext().prec = 2
-        stats[5].append(str(Decimal(games_won) / Decimal(games_lost)))
-        getcontext().prec = precision
-      print_stats(stats)
+      stats(selected_difficulty, games_played, games_won, games_lost, total_guesses)
