@@ -149,7 +149,10 @@ def guess_letter():
     guess_letter()
   
 def print_lives():
-  print("Lives: " + str(lives_left))
+  print("Lives: ", end = "")
+  if lives_left < 10:
+    print(" ", end = "")
+  print(str(lives_left))
 
 def print_stats():
   print_right("Difficulty: " + color.green + color.bold + selected_difficulty + color.end)
