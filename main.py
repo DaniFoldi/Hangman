@@ -98,7 +98,10 @@ def highlight(text):
 def reset_word(word):
   word_guessed = []
   for i in range(len(word)):
-    word_guessed.append("_")
+    if word[i] == " ":
+      word_guessed.append(" ")
+    else:
+      word_guessed.append("_")
   return word_guessed
 
 def reset_game():
