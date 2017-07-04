@@ -24,9 +24,11 @@ import sys
 
 word_list = []
 
-#VERSION
+#CONSTANTS
 
-version = "v1.8.2"
+version = "v1.9"
+lives_max = 10
+alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
 #COLORED PRINTING (ONLY UNIX-BASED)
 
@@ -55,10 +57,6 @@ hangman_states = [
   [" ⎾‾‾‾‾‾‾⏋", " │      😱", " │      /│\\", " │       │",  " │      /\\",  " │", "_⏊___________"]
 ]
 
-#MAXIMUM LIVES
-
-lives_max = 10
-
 #STATS
 
 games_played = 0
@@ -70,9 +68,6 @@ total_guesses = 0
 
 difficulties = ["Easy", "Medium", "Hard"]
 
-#ALPHABET
-
-alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
 #VARIABLES
 
@@ -133,7 +128,7 @@ def choose_difficulty():
 
 def choose_word(word_list):
   if selected_difficulty in difficulties:
-    word = word_list[random.randint(0, len(word_list) - 1)]
+    word = word_list[random.randint(len(word_list) - 1)]
     word_guessed = reset_word(word)
     return word, word_guessed
   else:
@@ -196,7 +191,7 @@ def print_guesses():
       print(color.green + letter + color.end, end = "")
     else:
       print(color.blue + color.bold + letter + color.end, end = "")
-    if letter != alphabet[len(alphabet) - 1]:
+    if letter != alphabet[-1]:
       print(" ", end = "")
   print()
   
