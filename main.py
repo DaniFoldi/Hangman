@@ -260,10 +260,10 @@ if __name__ == "__main__":
         selected_category = "Debug"
       else:
         selected_category = choose_category(categories)
-        load_words(selected_category)
+        word_list = load_words(selected_category)
     else:
       selected_category = choose_category(categories)
-      load_words(selected_category)
+      word_list = load_words(selected_category)
     while True:
       print()
       reset_game()
