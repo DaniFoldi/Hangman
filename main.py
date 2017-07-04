@@ -132,7 +132,7 @@ def choose_category(categories):
     choose_category(categories)
 
 def choose_word(word_list):
-  word = word_list[random.randint(0, len(word_list) - 1)]
+  word = random.choice(word_list)
   word_guessed = reset_word(word)
   return word, word_guessed
 
