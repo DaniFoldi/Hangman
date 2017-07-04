@@ -113,8 +113,6 @@ def reset_game():
   characters_guessed = []
 
 def choose_category(categories):
-  global selected_category
-  global word_list
   print("Please select a category: " + color.green)
   for category in categories:
     if category == "Impossible":
@@ -125,11 +123,10 @@ def choose_category(categories):
       print(" / ", end = "")
   print()
   selected_category = input("").capitalize()
-  if selected_category in categories:
-    word_list = load_words(selected_category)
-  else:
+  if selected_category not in categories:
     error("Category not available")
-    choose_category(categories)
+    selected_category = choose_category(categories)
+  return selected_category
 
 def choose_word(word_list):
   word = random.choice(word_list)
@@ -268,9 +265,11 @@ if __name__ == "__main__":
         word_list = ["computer"]
         selected_category = "Debug"
       else:
-        choose_category(categories)
+        selected_category = choose_category(categories)
+        load_words(selected_category)
     else:
-      choose_category(categories)
+      selected_category = choose_category(categories)
+      load_words(selected_category)
     while True:
       print()
       reset_game()
