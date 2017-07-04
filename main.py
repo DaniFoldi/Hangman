@@ -105,7 +105,7 @@ def reset_game():
   global lives_left
   global word
   global characters_guessed
-  lives_left = 10
+  lives_left = lives_max
   word = ""
   characters_guessed = []
 
@@ -123,15 +123,17 @@ def choose_category(categories):
     choose_category(categories)
 
 def choose_word(word_list):
-  if selected_difficulty in difficulties:
-    word = word_list[random.randint(len(word_list) - 1)]
-    word_guessed = reset_word(word)
-    return word, word_guessed
-  else:
-    error("Incorrect difficulty selected")
-    choose_difficulty()
-    word, word_guessed = choose_word(word_list)
-    return word, word_guessed
+  word = word_list[random.randint(0, len(word_list) - 1)]
+  word_guessed = reset_word(word)
+  return word, word_guessed
+
+def load_words(selected_category):
+  word_list = []
+  with open((selected_category.lower() + ".csv"), newline = "") as word_file:
+      reader = csv.reader(word_file, delimiter = " ", quotechar = "|")
+      for option in reader:
+        word_list.append(option[0])
+  return word_list
   
 def guess_letter():
   global characters_guessed
@@ -266,4 +268,4 @@ if __name__ == "__main__":
         games_played += 1
       print()
 
-      stats(selected_difficulty, games_played, games_won, games_lost, total_guesses)
+      stats(selected_category, games_played, games_won, games_lost, total_guesses)
