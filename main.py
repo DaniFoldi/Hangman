@@ -20,27 +20,12 @@ import os
 import platform
 import sys
 
-#WORD LIST
-
-word_list = []
-
 #CONSTANTS
 
-version = "v2.0ß"
+version = "v2.0"
 lives_max = 10
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-
-#COLORED PRINTING (ONLY UNIX-BASED)
-
-class color:
-  pink = "\033[95m"
-  blue = "\033[94m"
-  green = "\033[92m"
-  yellow = "\033[93m'"
-  red = "\033[91m"
-  bold = "\033[1m"
-  underline = "\033[4m"
-  end = "\033[0m"
+categories = ["Animals", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "School", "Tech"]
 
 #HANGMANIMATION
 
@@ -57,16 +42,24 @@ hangman_states = [
   [" ⎾‾‾‾‾‾‾⏋", " │      😱", " │      /│\\", " │       │",  " │      /\\",  " │", "_⏊___________"]
 ]
 
+#COLORED PRINTING (ONLY UNIX-BASED)
+
+class color:
+  pink = "\033[95m"
+  blue = "\033[94m"
+  green = "\033[92m"
+  yellow = "\033[93m'"
+  red = "\033[91m"
+  bold = "\033[1m"
+  underline = "\033[4m"
+  end = "\033[0m"
+
 #STATS
 
 games_played = 0
 games_won = 0
 games_lost = 0
 total_guesses = 0
-
-#CATEGORIES
-
-categories = ["Animals", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "School", "Tech"]
 
 #VARIABLES
 
@@ -75,6 +68,7 @@ word = ""
 characters_guessed = []
 word_guessed = []
 lives_left = 0
+word_list = []
 
 #FUNCTIONS
 
