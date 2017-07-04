@@ -2,9 +2,13 @@
 
 #SPECIAL THANKS:
 #ÁDÁM FOR THE GAME IDEA AND LETTING ME OVERCOMPLICATE IT
-#EASY AND MEDIUM WORDS FROM: https://www.thegamegal.com/printables/
-#HARD WORDS FROM: https://www.hangmanwords.com/words
+#IMPOSSIBLE WORDS FROM: https://www.hangmanwords.com/words
 #COLORED TEXT: https://stackoverflow.com/questions/287871/print-in-terminal-with-colors-using-python
+
+#PLANS FOR THE FUTURE:
+#LANG SUPPORT
+#GLOBAL LEADERBOARD
+#iOS RELEASE
 
 #IMPORT
 
