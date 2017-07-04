@@ -247,13 +247,17 @@ if __name__ == "__main__":
     header("Welcome to the Ultimate Hangman " + version)
     if len(sys.argv) > 1:
       if sys.argv[1] == "easy":
-        load_words("easy")
+        word_list = load_words("easy")
+        selected_category = "easy"
       elif sys.argv[1] == "medium":
-        load_words("medium")
+        word_list = load_words("medium")
+        selected_category = "medium"
       elif sys.argv[1] == "hard":
-        load_words("impossible")
+        word_list = load_words("impossible")
+        selected_category = "hard"
       elif sys.argv[1] == "debug":
         word_list = ["computer"]
+        selected_category = "Debug"
       else:
         choose_category(categories)
     else:
