@@ -66,7 +66,7 @@ total_guesses = 0
 
 #CATEGORIES
 
-categories = ["Animals", "Cars", "Music", "Countries", "Tech", "Movies", "City", "Colors", "Family", "Meals", "School", "House", "Impossible"]
+categories = ["Animals", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "School", "Tech"]
 
 #VARIABLES
 
