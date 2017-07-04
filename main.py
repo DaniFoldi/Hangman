@@ -245,7 +245,19 @@ if __name__ == "__main__":
     sys.exit(1)
   else:
     header("Welcome to the Ultimate Hangman " + version)
-    choose_difficulty()
+    if len(sys.argv) > 1:
+      if sys.argv[1] == "easy":
+        load_words("easy")
+      elif sys.argv[1] == "medium":
+        load_words("medium")
+      elif sys.argv[1] == "hard":
+        load_words("impossible")
+      elif sys.argv[1] == "debug":
+        word_list = ["computer"]
+      else:
+        choose_category(categories)
+    else:
+      choose_category(categories)
     while True:
       print()
       reset_game()
