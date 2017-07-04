@@ -26,7 +26,7 @@ word_list = []
 
 #CONSTANTS
 
-version = "v1.9"
+version = "v2.0ß"
 lives_max = 10
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
@@ -64,14 +64,13 @@ games_won = 0
 games_lost = 0
 total_guesses = 0
 
-#DIFFICULTIES
+#CATEGORIES
 
-difficulties = ["Easy", "Medium", "Hard"]
-
+categories = ["Animals", "Cars", "Music", "Countries", "Tech", "Movies", "City", "Colors", "Family", "Meals", "School", "House", "Impossible"]
 
 #VARIABLES
 
-selected_difficulty = ""
+selected_category = ""
 word = ""
 characters_guessed = []
 word_guessed = []
@@ -110,21 +109,18 @@ def reset_game():
   word = ""
   characters_guessed = []
 
-def choose_difficulty():
-  global selected_difficulty
-  print("Please select a difficulty level: " + color.green)
-  print((color.end + " / " + color.green).join(difficulties), end = "")
+def choose_category(categories):
+  global selected_category
+  global word_list
+  print("Please select a category: " + color.green)
+  print((color.end + " / " + color.green).join(categories), end = "")
   print(color.end)
-  selected_difficulty = input("")
-  selected_difficulty = selected_difficulty.capitalize()
-  if selected_difficulty in difficulties:
-    with open((selected_difficulty.lower() + ".csv"), newline = "") as word_file:
-      reader = csv.reader(word_file, delimiter = " ", quotechar = "|")
-      for option in reader:
-        word_list.append(option[0])
+  selected_category = input("").capitalize()
+  if selected_category in categories:
+    word_list = load_words(selected_category)
   else:
-    error("Difficulty not available")
-    choose_difficulty()
+    error("Category not available")
+    choose_category(categories)
 
 def choose_word(word_list):
   if selected_difficulty in difficulties:
@@ -201,8 +197,8 @@ def print_state(lives_left, lives_max, word_guessed):
   print_word(word_guessed)
   print_guesses()
 
-def stats(selected_difficulty, games_played, games_won, games_lost, total_guesses):
-  stats = [["Difficulty: ", selected_difficulty], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["W/L Ratio: "], ["Average guesses: "]]
+def stats(selected_category, games_played, games_won, games_lost, total_guesses):
+  stats = [["Category: ", selected_category], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["W/L Ratio: "], ["Average guesses: "]]
   if games_lost == 0:
     stats[4].append("-")
   else:
