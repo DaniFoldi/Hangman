@@ -94,6 +94,9 @@ def error(text):
 def header(text):
   print(color.pink + color.bold + text + color.end)
 
+def highlight(text):
+  print(color.bold + text + color.end)
+
 def reset_word():
   global word_guessed
   word_guessed = []
@@ -258,11 +261,11 @@ if __name__ == "__main__":
         print_state()
         
       if win(word_guessed):
-        print(color.bold + "You won the game! Congrats!" + color.end)
+        highlight(color.bold + "You won the game! Congrats!" + color.end)
         games_won += 1
         games_played += 1
       elif lose(lives_left):
-        print(color.bold + "You lost." + color.end)
+        highlight(color.bold + "You lost." + color.end)
         print("The word was: " + color.red + word + color.end)
         games_lost += 1
         games_played += 1
