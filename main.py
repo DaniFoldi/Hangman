@@ -22,7 +22,7 @@ word_list = []
 
 #VERSION
 
-version = "v1.8.1"
+version = "v1.8.2"
 
 #COLORED PRINTING (ONLY UNIX-BASED)
 
@@ -192,12 +192,12 @@ def print_guesses():
     if letter in characters_guessed:
       print(color.green + letter + color.end, end = "")
     else:
-      print(color.blue + letter + color.end, end = "")
+      print(color.blue + color.bold + letter + color.end, end = "")
     if letter != alphabet[len(alphabet) - 1]:
       print(" ", end = "")
   print()
   
-def print_state():
+def print_state(lives_left, lives_max, word_guessed):
   hangman_state(lives_left, lives_max)
   print_lives(lives_left)
   print_word(word_guessed)
@@ -255,11 +255,11 @@ if __name__ == "__main__":
       print()
       reset_game()
       word = choose_word(word_list)
-      print_state()
+      print_state(lives_left, lives_max, word_guessed)
       
       while not(win(word_guessed) or lose(lives_left)):
         guess_letter()
-        print_state()
+        print_state(lives_left, lives_max, word_guessed)
         
       if win(word_guessed):
         highlight(color.bold + "You won the game! Congrats!" + color.end)
