@@ -97,11 +97,11 @@ def header(text):
 def highlight(text):
   print(color.bold + text + color.end)
 
-def reset_word():
-  global word_guessed
+def reset_word(word):
   word_guessed = []
   for i in range(len(word)):
     word_guessed.append("_")
+  return word_guessed
 
 def reset_game():
   global lives_left
@@ -130,13 +130,13 @@ def choose_difficulty():
 def choose_word(word_list):
   if selected_difficulty in difficulties:
     word = word_list[random.randint(0, len(word_list) - 1)]
-    reset_word()
-    return word
+    word_guessed = reset_word(word)
+    return word, word_guessed
   else:
     error("Incorrect difficulty selected")
     choose_difficulty()
-    word = choose_word(word_list)
-    return word
+    word, word_guessed = choose_word(word_list)
+    return word, word_guessed
   
 def guess_letter():
   global characters_guessed
@@ -159,7 +159,6 @@ def guess_letter():
       if not char_in_word:
         lives_left -= 1
       characters_guessed.append(char)
-      total_guesses += 1
   else:
     error("Incorrect guess")
     guess_letter()
@@ -254,7 +253,7 @@ if __name__ == "__main__":
       print()
       print()
       reset_game()
-      word = choose_word(word_list)
+      word, word_guessed = choose_word(word_list)
       print_state(lives_left, lives_max, word_guessed)
       
       while not(win(word_guessed) or lose(lives_left)):
@@ -265,6 +264,7 @@ if __name__ == "__main__":
         highlight(color.bold + "You won the game! Congrats!" + color.end)
         games_won += 1
         games_played += 1
+        total_guesses += len(characters_guessed)
       elif lose(lives_left):
         highlight(color.bold + "You lost." + color.end)
         print("The word was: " + color.red + word + color.end)
