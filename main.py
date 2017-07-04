@@ -94,6 +94,8 @@ def reset_word(word):
   for i in range(len(word)):
     if word[i] == " ":
       word_guessed.append(" ")
+    elif word[i] == "-":
+      word_guessed.append("-")
     else:
       word_guessed.append("_")
   return word_guessed
@@ -123,7 +125,7 @@ def choose_category(categories):
   return selected_category
 
 def choose_word(word_list):
-  word = random.choice(word_list)
+  word = random.choice(word_list).upper()
   word_guessed = reset_word(word)
   return word, word_guessed
 
@@ -155,7 +157,7 @@ def guess_letter():
           char_in_word = True
       if not char_in_word:
         lives_left -= 1
-      characters_guessed.append(char)
+      characters_guessed.append(char.upper())
   else:
     error("Incorrect guess")
     guess_letter()
