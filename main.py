@@ -113,8 +113,14 @@ def choose_category(categories):
   global selected_category
   global word_list
   print("Please select a category: " + color.green)
-  print((color.end + " / " + color.green).join(categories), end = "")
-  print(color.end)
+  for category in categories:
+    if category == "Impossible":
+      print(color.red + color.bold + category + color.end, end = "")
+    else:
+      print(color.blue + category + color.end, end = "")
+    if category != categories[-1]:
+      print(" / ", end = "")
+  print()
   selected_category = input("").capitalize()
   if selected_category in categories:
     word_list = load_words(selected_category)
