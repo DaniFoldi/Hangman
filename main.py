@@ -167,7 +167,7 @@ def print_lives(lives_left):
   print("Lives: ", end = "")
   if lives_left < 10:
     print(" ", end = "")
-  print(str(lives_left))
+  highlight(str(lives_left))
 
 def print_stats(stats):
   max_length = 0
@@ -251,11 +251,10 @@ if __name__ == "__main__":
     choose_difficulty()
     while True:
       print()
-      print()
       reset_game()
       word, word_guessed = choose_word(word_list)
       print_state(lives_left, lives_max, word_guessed)
-      
+
       while not(win(word_guessed) or lose(lives_left)):
         guess_letter()
         print_state(lives_left, lives_max, word_guessed)
