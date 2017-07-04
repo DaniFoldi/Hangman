@@ -164,7 +164,7 @@ def guess_letter():
     error("Incorrect guess")
     guess_letter()
   
-def print_lives():
+def print_lives(lives_left):
   print("Lives: ", end = "")
   if lives_left < 10:
     print(" ", end = "")
@@ -183,7 +183,7 @@ def print_stats(stats):
     display += color.green + color.bold + stat[1] + color.end
     print_right(display, length)
   
-def print_word():
+def print_word(word_guessed):
   print(" ".join(word_guessed), end = "")
   print()
 
@@ -198,9 +198,9 @@ def print_guesses():
   print()
   
 def print_state():
-  hangman_state()
-  print_lives()
-  print_word()
+  hangman_state(lives_left, lives_max)
+  print_lives(lives_left)
+  print_word(word_guessed)
   print_guesses()
 
 def stats(selected_difficulty, games_played, games_won, games_lost, total_guesses):
@@ -234,7 +234,7 @@ def lose(lives_left):
   else:
     return False
 
-def hangman_state():
+def hangman_state(lives_left, lives_max):
   if lives_left < lives_max:
     for state in hangman_states[lives_max - 1 - lives_left]:
       print(state)
