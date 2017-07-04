@@ -22,7 +22,7 @@ word_list = []
 
 #VERSION
 
-version = "v1.8"
+version = "v1.8.1"
 
 #COLORED PRINTING (ONLY UNIX-BASED)
 
@@ -84,7 +84,7 @@ def print_right(text, length):
   if length <= 0:
     length = len(text)
   rows, columns = os.popen('stty size', 'r').read().split()
-  for i in range(0, int(columns) - length):
+  for i in range(int(columns) - length):
     print(" ", end = "")
   print(text)
 
@@ -100,7 +100,7 @@ def highlight(text):
 def reset_word():
   global word_guessed
   word_guessed = []
-  for i in range(0, len(word)):
+  for i in range(len(word)):
     word_guessed.append("_")
 
 def reset_game():
@@ -152,7 +152,7 @@ def guess_letter():
       guess_letter()
     else:
       char_in_word = False
-      for i in range(0, len(word)):
+      for i in range(len(word)):
         if word[i] == char:
           word_guessed[i] = char
           char_in_word = True
@@ -177,7 +177,7 @@ def print_stats(stats):
       max_length = len(stat[1])
   for stat in stats:
     display = stat[0]
-    for i in range(0, max_length - len(stat[1])):
+    for i in range(max_length - len(stat[1])):
       display += " "
     length = len(stat[0]) + max_length
     display += color.green + color.bold + stat[1] + color.end
@@ -254,7 +254,7 @@ if __name__ == "__main__":
       print()
       print()
       reset_game()
-      woed = choose_word(word_list)
+      word = choose_word(word_list)
       print_state()
       
       while not(win(word_guessed) or lose(lives_left)):
