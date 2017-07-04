@@ -127,15 +127,16 @@ def choose_difficulty():
     error("Difficulty not available")
     choose_difficulty()
 
-def choose_word():
-  global word
+def choose_word(word_list):
   if selected_difficulty in difficulties:
     word = word_list[random.randint(0, len(word_list) - 1)]
     reset_word()
+    return word
   else:
     error("Incorrect difficulty selected")
     choose_difficulty()
-    choose_word()
+    word = choose_word(word_list)
+    return word
   
 def guess_letter():
   global characters_guessed
@@ -253,7 +254,7 @@ if __name__ == "__main__":
       print()
       print()
       reset_game()
-      choose_word()
+      woed = choose_word(word_list)
       print_state()
       
       while not(win(word_guessed) or lose(lives_left)):
