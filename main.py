@@ -78,6 +78,11 @@ def get_text(text):
   else:
     return raw_input(text)
 
+def clear_terminal():
+  rows, columns = os.popen('stty size', 'r').read().split()
+  for i in range(int(rows)):
+    print()
+
 def print_right(text, length):
   if length <= 0:
     length = len(text)
@@ -212,18 +217,11 @@ def stats(selected_category, games_played, games_won, games_lost, total_guesses)
   if games_lost == 0:
     stats[4].append("-")
   else:
-    precision = getcontext().prec
-    getcontext().prec = 2
-    stats[4].append(str(Decimal(games_won) / Decimal(games_lost)))
-    getcontext().prec = precision
-
+    stats[5].append(str(ratio(games_won, games_lost)))
   if games_played == 0:
     stats[5].append("-")
   else:
-    precision = getcontext().prec
-    getcontext().prec = 2
-    stats[5].append(str(Decimal(total_guesses) / Decimal(games_played)))
-    getcontext().prec = precision
+    stats[5].append(str(ratio(total_guesses, games_played)))
   print_stats(stats)
 
 def win(word_guessed):
@@ -243,11 +241,19 @@ def hangman_state(lives_left, lives_max):
     for state in hangman_states[lives_max - 1 - lives_left]:
       print(state)
 
+def ratio(a, b):
+  precision = getcontext().prec
+  getcontext().prec = 2
+  result = Decimal(a) / Decimal(b)
+  getcontext().prec = precision
+  return result
+
 def move_cursor():
   nothing_yet = 2.0
 
 #MAIN LOGIC
 if __name__ == "__main__":
+  clear_terminal()
   if platform.system == "Windows":
     error("Windows is not supported right now")
     sys.exit(1)
@@ -280,7 +286,9 @@ if __name__ == "__main__":
       while not(win(word_guessed) or lose(lives_left)):
         print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed)
         guess_letter()
-        
+      
+      print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed)
+
       if win(word_guessed):
         highlight(color.bold + "You won the game! Congrats!" + color.end)
         games_won += 1
