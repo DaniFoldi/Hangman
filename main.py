@@ -72,6 +72,12 @@ word_list = []
 
 #FUNCTIONS
 
+def get_text(text):
+  if sys.version_info[0] > (2):
+    return input(text)
+  else:
+    return raw_input(text)
+
 def print_right(text, length):
   if length <= 0:
     length = len(text)
@@ -118,7 +124,7 @@ def choose_category(categories):
     if category != categories[-1]:
       print(" / ", end = "")
   print()
-  selected_category = raw_input("").capitalize()
+  selected_category = get_text("").capitalize()
   if selected_category not in categories:
     error("Category not available")
     selected_category = choose_category(categories)
@@ -143,7 +149,7 @@ def guess_letter():
   global word_guessed
   global total_guesses
   print("Please input your guess")
-  char = raw_input("")
+  char = get_text("")
   char = char.upper()
   if char in alphabet:
     if char in characters_guessed:
