@@ -25,7 +25,7 @@ import sys
 version = "v2.0"
 lives_max = 10
 alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-categories = ["Animals", "Atoms" "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "School", "Tech"]
+categories = ["Animals", "Atoms", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "School", "Tech"]
 
 #HANGMANIMATION
 
@@ -118,7 +118,7 @@ def choose_category(categories):
     if category != categories[-1]:
       print(" / ", end = "")
   print()
-  selected_category = input("").capitalize()
+  selected_category = raw_input("").capitalize()
   if selected_category not in categories:
     error("Category not available")
     selected_category = choose_category(categories)
@@ -131,7 +131,7 @@ def choose_word(word_list):
 
 def load_words(selected_category):
   word_list = []
-  with open((selected_category.lower() + ".csv"), newline = "") as word_file:
+  with open((selected_category.lower() + ".csv")) as word_file:
       reader = csv.reader(word_file, delimiter = " ", quotechar = "|")
       for option in reader:
         word_list.append(option[0])
@@ -143,7 +143,7 @@ def guess_letter():
   global word_guessed
   global total_guesses
   print("Please input your guess")
-  char = input("")
+  char = raw_input("")
   char = char.upper()
   if char in alphabet:
     if char in characters_guessed:
@@ -185,7 +185,7 @@ def print_word(word_guessed):
   print(" ".join(word_guessed), end = "")
   print()
 
-def print_guesses():
+def print_guesses(alphabet, characters_guessed):
   for letter in alphabet:
     if letter in characters_guessed:
       print(color.green + letter.upper() + color.end, end = "")
@@ -195,11 +195,11 @@ def print_guesses():
       print(" ", end = "")
   print()
   
-def print_state(lives_left, lives_max, word_guessed):
+def print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed):
   hangman_state(lives_left, lives_max)
   print_lives(lives_left)
   print_word(word_guessed)
-  print_guesses()
+  print_guesses(alphabet, characters_guessed)
 
 def stats(selected_category, games_played, games_won, games_lost, total_guesses):
   stats = [["Category: ", selected_category], ["Games played: ", str(games_played)], ["Games won: ", str(games_won)], ["Games lost: ", str(games_lost)], ["W/L Ratio: "], ["Average guesses: "]]
@@ -270,11 +270,10 @@ if __name__ == "__main__":
       print()
       reset_game()
       word, word_guessed = choose_word(word_list)
-      print_state(lives_left, lives_max, word_guessed)
 
       while not(win(word_guessed) or lose(lives_left)):
+        print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed)
         guess_letter()
-        print_state(lives_left, lives_max, word_guessed)
         
       if win(word_guessed):
         highlight(color.bold + "You won the game! Congrats!" + color.end)
