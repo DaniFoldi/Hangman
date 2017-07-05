@@ -24,7 +24,7 @@ import sys
 
 version = "v2.0"
 lives_max = 10
-alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 categories = ["Animals", "Atoms" "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "School", "Tech"]
 
 #HANGMANIMATION
@@ -144,7 +144,7 @@ def guess_letter():
   global total_guesses
   print("Please input your guess")
   char = input("")
-  char = char.lower()
+  char = char.upper()
   if char in alphabet:
     if char in characters_guessed:
       error("Letter already guessed")
@@ -188,9 +188,9 @@ def print_word(word_guessed):
 def print_guesses():
   for letter in alphabet:
     if letter in characters_guessed:
-      print(color.green + letter + color.end, end = "")
+      print(color.green + letter.upper() + color.end, end = "")
     else:
-      print(color.blue + color.bold + letter + color.end, end = "")
+      print(color.blue + color.bold + letter.upper() + color.end, end = "")
     if letter != alphabet[-1]:
       print(" ", end = "")
   print()
