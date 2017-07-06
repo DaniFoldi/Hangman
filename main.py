@@ -25,7 +25,7 @@ import sys
 version = "v2.2"
 lives_max = 10
 alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-categories = ["Animals", "Atoms", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "School", "Tech"]
+categories = ["Animals", "Atoms", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "Random", "School", "Tech"]
 
 #HANGMANIMATION
 
@@ -69,6 +69,7 @@ characters_guessed = []
 word_guessed = []
 lives_left = 0
 word_list = []
+random_mode = false
 
 #FUNCTIONS
 
@@ -129,6 +130,8 @@ def choose_category(categories):
   for category in categories:
     if category == "Impossible":
       print_inline(style.red + style.bold + category + style.end)
+    elif category == "Random":
+      print_inline(style.green + style.bold + category + style.end)
     else:
       print_inline(style.blue + category + style.end)
     if category != categories[-1]:
@@ -268,10 +271,10 @@ def hangman_state(lives_left, lives_max):
     for state in hangman_states[lives_max - 1 - lives_left]:
       print(state)
 
-def ratio(a, b):
+def ratio(dividend, divisor):
   precision = getcontext().prec
   getcontext().prec = 2
-  result = Decimal(a) / Decimal(b)
+  result = Decimal(dividend) / Decimal(divisor)
   getcontext().prec = precision
   return result
 
