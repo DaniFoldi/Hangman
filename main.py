@@ -78,16 +78,20 @@ def get_text(text):
   else:
     return raw_input(text)
 
+def get_terminal_size():
+  width, height = os.popen('stty size', 'r').read().split()
+  return width, height
+
 def clear_terminal():
-  rows, columns = os.popen('stty size', 'r').read().split()
-  for i in range(int(rows)):
+  width, height = get_terminal_size()
+  for i in range(int(width)):
     print()
 
 def print_right(text, length):
   if length <= 0:
     length = len(text)
-  rows, columns = os.popen('stty size', 'r').read().split()
-  for i in range(int(columns) - length):
+  width, height = get_terminal_size()
+  for i in range(int(height) - length):
     print(" ", end = "")
   print(text)
 
@@ -100,6 +104,9 @@ def header(text):
 def highlight(text):
   print(style.bold + text + style.end)
 
+def print_inline(text):
+  print(text, end = "")
+
 def reset_word(word):
   word_guessed = []
   for i in range(len(word)):
@@ -111,23 +118,21 @@ def reset_word(word):
       word_guessed.append("_")
   return word_guessed
 
-def reset_game():
-  global lives_left
-  global word
-  global characters_guessed
+def reset_game(lives_max):
   lives_left = lives_max
   word = ""
   characters_guessed = []
+  return lives_left, word, characters_guessed
 
 def choose_category(categories):
   print("Please select a category: " + style.green)
   for category in categories:
     if category == "Impossible":
-      print(style.red + style.bold + category + style.end, end = "")
+      print_inline(style.red + style.bold + category + style.end)
     else:
-      print(style.blue + category + style.end, end = "")
+      print_inline(style.blue + category + style.end)
     if category != categories[-1]:
-      print(" / ", end = "")
+      print_inline(" / ")
   print()
   selected_category = get_text("").capitalize()
   if selected_category not in categories:
@@ -156,7 +161,7 @@ def choose_word_list(categories):
       return word_list, selected_category
     elif sys.argv[1] == "debug":
       selected_category = "Debug"
-      word_list = ["ASD -BASD"]
+      word_list = ["test word - all characters"]
       return word_list, selected_category
     
   selected_category = choose_category(categories)
@@ -171,17 +176,15 @@ def load_words(selected_category):
         word_list.append(option[0])
   return word_list
   
-def guess_letter():
-  global characters_guessed
-  global lives_left
-  global word_guessed
+def guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left):
   print("Please input your guess")
   char = get_text("")
   char = char.upper()
   if char in alphabet:
     if char in characters_guessed:
       error("Letter already guessed")
-      guess_letter()
+      lives_left, word_guessed, characters_guessed = guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left)
+      return lives_left, word_guessed, characters_guessed
     else:
       char_in_word = False
       for i in range(len(word)):
@@ -191,14 +194,16 @@ def guess_letter():
       if not char_in_word:
         lives_left -= 1
       characters_guessed.append(char.upper())
+      return lives_left, word_guessed, characters_guessed
   else:
     error("Incorrect guess")
-    guess_letter()
+    lives_left, word_guessed, characters_guessed = guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left)
+    return lives_left, word_guessed, characters_guessed
   
 def print_lives(lives_left):
-  print("Lives: ", end = "")
+  print_inline("Lives: ")
   if lives_left < 10:
-    print(" ", end = "")
+    print_inline(" ")
   highlight(str(lives_left))
 
 def print_stats(stats):
@@ -215,17 +220,17 @@ def print_stats(stats):
     print_right(display, length)
   
 def print_word(word_guessed):
-  print(" ".join(word_guessed), end = "")
+  print_inline(" ".join(word_guessed))
   print()
 
 def print_guesses(alphabet, characters_guessed):
   for letter in alphabet:
     if letter in characters_guessed:
-      print(style.green + letter.upper() + style.end, end = "")
+      print_inline(style.green + letter.upper() + style.end)
     else:
-      print(style.blue + style.bold + letter.upper() + style.end, end = "")
+      print_inline(style.blue + style.bold + letter.upper() + style.end)
     if letter != alphabet[-1]:
-      print(" ", end = "")
+      print_inline(" ")
   print()
   
 def print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed):
@@ -284,12 +289,12 @@ if __name__ == "__main__":
     word_list, selected_category = choose_word_list(categories)
     while True:
       print()
-      reset_game()
+      lives_left, word, characters_guessed = reset_game(lives_max)
       word, word_guessed = choose_word(word_list)
 
       while not(win(word_guessed) or lose(lives_left)):
         print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed)
-        guess_letter()
+        lives_left, word_guessed, characters_guessed = guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left)
       
       print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed)
 
