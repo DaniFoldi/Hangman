@@ -290,7 +290,7 @@ def move_cursor():
 if __name__ == "__main__":
   clear_terminal()
 
-  broadened_category_list = categories
+  broadened_category_list = categories[:]
   broadened_category_list.remove("Random")
   broadened_category_list.remove("Impossible")
 
