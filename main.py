@@ -217,7 +217,7 @@ def stats(selected_category, games_played, games_won, games_lost, total_guesses)
   if games_lost == 0:
     stats[4].append("-")
   else:
-    stats[5].append(str(ratio(games_won, games_lost)))
+    stats[4].append(str(ratio(games_won, games_lost)))
   if games_played == 0:
     stats[5].append("-")
   else:
