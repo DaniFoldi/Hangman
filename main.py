@@ -140,10 +140,33 @@ def choose_word(word_list):
   word_guessed = reset_word(word)
   return word, word_guessed
 
+def choose_word_list(categories):
+  if len(sys.argv) > 1:
+    if sys.argv[1] == "easy":
+      selected_category = "easy"
+      word_list = load_words("easy")
+      return word_list, selected_category
+    elif sys.argv[1] == "medium":
+      selected_category = "medium"
+      word_list = load_words("medium")
+      return word_list, selected_category
+    elif sys.argv[1] == "hard":
+      selected_category = "hard"
+      word_list = load_words("impossible")
+      return word_list, selected_category
+    elif sys.argv[1] == "debug":
+      selected_category = "Debug"
+      word_list = ["ASD -BASD"]
+      return word_list, selected_category
+    
+  selected_category = choose_category(categories)
+  word_list = load_words(selected_category)
+  return word_list, selected_category
+
 def load_words(selected_category):
   word_list = []
   with open((selected_category.lower() + ".csv")) as word_file:
-      reader = csv.reader(word_file, delimiter = " ", quotechar = "|")
+      reader = csv.reader(word_file, delimiter = ",", quotechar = "|")
       for option in reader:
         word_list.append(option[0])
   return word_list
@@ -259,25 +282,7 @@ if __name__ == "__main__":
     sys.exit(1)
   else:
     header("Welcome to the Ultimate Hangman " + version)
-    if len(sys.argv) > 1:
-      if sys.argv[1] == "easy":
-        word_list = load_words("easy")
-        selected_category = "easy"
-      elif sys.argv[1] == "medium":
-        word_list = load_words("medium")
-        selected_category = "medium"
-      elif sys.argv[1] == "hard":
-        word_list = load_words("impossible")
-        selected_category = "hard"
-      elif sys.argv[1] == "debug":
-        word_list = ["computer"]
-        selected_category = "Debug"
-      else:
-        selected_category = choose_category(categories)
-        word_list = load_words(selected_category)
-    else:
-      selected_category = choose_category(categories)
-      word_list = load_words(selected_category)
+    word_list, selected_category = choose_word_list(categories)
     while True:
       print()
       reset_game()
