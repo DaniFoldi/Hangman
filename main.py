@@ -138,9 +138,7 @@ def choose_category(categories):
       print_inline(" / ")
   print()
   selected_category = get_text("").capitalize()
-  if selected_category == "Random":
-    random_mode = True
-  if selected_category not in categories and random_mode == false:
+  if selected_category not in categories:
     error("Category not available")
     selected_category = choose_category(categories)
   return selected_category
@@ -155,28 +153,31 @@ def choose_word_list(categories):
     if sys.argv[1] == "easy":
       selected_category = "easy"
       word_list = load_words("easy")
-      return word_list, selected_category
+      return word_list, selected_category, False
     elif sys.argv[1] == "medium":
       selected_category = "medium"
       word_list = load_words("medium")
-      return word_list, selected_category
+      return word_list, selected_category, False
     elif sys.argv[1] == "hard":
       selected_category = "hard"
       word_list = load_words("impossible")
-      return word_list, selected_category
+      return word_list, selected_category, False
     elif sys.argv[1] == "debug":
       selected_category = "Debug"
       word_list = ["test word - all characters"]
       return word_list, selected_category
     
   selected_category = choose_category(categories)
-  word_list = load_words(selected_category)
-  return word_list, selected_category
+  random_mode = False
+  word_list = []
+  if selected_category == "Random":
+    random_mode = True
+  else:
+    word_list = load_words(selected_category)
+  return word_list, selected_category, random_mode
 
 def load_words(selected_category):
   word_list = []
-  if random_mode == True:
-    return word_list
   with open((selected_category.lower() + ".csv")) as word_file:
       reader = csv.reader(word_file, delimiter = ",", quotechar = "|")
       for option in reader:
@@ -288,18 +289,27 @@ def move_cursor():
 #MAIN LOGIC
 if __name__ == "__main__":
   clear_terminal()
+
+  broadened_category_list = categories
+  broadened_category_list.remove("Random")
+  broadened_category_list.remove("Impossible")
+
   if platform.system == "Windows":
     error("Windows is not supported right now")
     sys.exit(1)
   else:
     header("Welcome to the Ultimate Hangman " + version)
-    word_list, selected_category = choose_word_list(categories)
+    word_list, selected_category, random_mode = choose_word_list(categories)
     while True:
       print()
       lives_left, word, characters_guessed = reset_game(lives_max)
+
       if random_mode == True:
-        selected_category = random.choice(categories)
+        selected_category = random.choice(broadened_category_list)
         word_list = load_words(selected_category)
+        print_inline("Category: ")
+        highlight(selected_category)
+
       word, word_guessed = choose_word(word_list)
 
       while not(win(word_guessed) or lose(lives_left)):
