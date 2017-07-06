@@ -69,7 +69,7 @@ characters_guessed = []
 word_guessed = []
 lives_left = 0
 word_list = []
-random_mode = false
+random_mode = False
 
 #FUNCTIONS
 
@@ -138,7 +138,9 @@ def choose_category(categories):
       print_inline(" / ")
   print()
   selected_category = get_text("").capitalize()
-  if selected_category not in categories:
+  if selected_category == "Random":
+    random_mode = True
+  if selected_category not in categories and random_mode == false:
     error("Category not available")
     selected_category = choose_category(categories)
   return selected_category
@@ -173,6 +175,8 @@ def choose_word_list(categories):
 
 def load_words(selected_category):
   word_list = []
+  if random_mode == True:
+    return word_list
   with open((selected_category.lower() + ".csv")) as word_file:
       reader = csv.reader(word_file, delimiter = ",", quotechar = "|")
       for option in reader:
@@ -293,6 +297,9 @@ if __name__ == "__main__":
     while True:
       print()
       lives_left, word, characters_guessed = reset_game(lives_max)
+      if random_mode == True:
+        selected_category = random.choice(categories)
+        word_list = load_words(selected_category)
       word, word_guessed = choose_word(word_list)
 
       while not(win(word_guessed) or lose(lives_left)):
