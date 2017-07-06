@@ -3,11 +3,11 @@
 #SPECIAL THANKS:
 #ÁDÁM FOR THE GAME IDEA AND LETTING ME OVERCOMPLICATE IT
 #IMPOSSIBLE WORDS FROM: https://www.hangmanwords.com/words
-#COLORED TEXT: https://stackoverflow.com/questions/287871/print-in-terminal-with-colors-using-python
 
 #PLANS FOR THE FUTURE:
 #LANG SUPPORT
 #GLOBAL LEADERBOARD
+#CUSTOM WORDLIST
 #iOS RELEASE
 
 #IMPORT
@@ -22,7 +22,7 @@ import sys
 
 #CONSTANTS
 
-version = "v2.0"
+version = "v2.2"
 lives_max = 10
 alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 categories = ["Animals", "Atoms", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "School", "Tech"]
@@ -44,7 +44,7 @@ hangman_states = [
 
 #COLORED PRINTING (ONLY UNIX-BASED)
 
-class color:
+class style:
   pink = "\033[95m"
   blue = "\033[94m"
   green = "\033[92m"
@@ -92,13 +92,13 @@ def print_right(text, length):
   print(text)
 
 def error(text):
-  print(color.red + text + color.end)
+  print(style.red + text + style.end)
 
 def header(text):
-  print(color.pink + color.bold + text + color.end)
+  print(style.pink + style.bold + text + style.end)
 
 def highlight(text):
-  print(color.bold + text + color.end)
+  print(style.bold + text + style.end)
 
 def reset_word(word):
   word_guessed = []
@@ -120,12 +120,12 @@ def reset_game():
   characters_guessed = []
 
 def choose_category(categories):
-  print("Please select a category: " + color.green)
+  print("Please select a category: " + style.green)
   for category in categories:
     if category == "Impossible":
-      print(color.red + color.bold + category + color.end, end = "")
+      print(style.red + style.bold + category + style.end, end = "")
     else:
-      print(color.blue + category + color.end, end = "")
+      print(style.blue + category + style.end, end = "")
     if category != categories[-1]:
       print(" / ", end = "")
   print()
@@ -175,7 +175,6 @@ def guess_letter():
   global characters_guessed
   global lives_left
   global word_guessed
-  global total_guesses
   print("Please input your guess")
   char = get_text("")
   char = char.upper()
@@ -212,7 +211,7 @@ def print_stats(stats):
     for i in range(max_length - len(stat[1])):
       display += " "
     length = len(stat[0]) + max_length
-    display += color.green + color.bold + stat[1] + color.end
+    display += style.green + style.bold + stat[1] + style.end
     print_right(display, length)
   
 def print_word(word_guessed):
@@ -222,9 +221,9 @@ def print_word(word_guessed):
 def print_guesses(alphabet, characters_guessed):
   for letter in alphabet:
     if letter in characters_guessed:
-      print(color.green + letter.upper() + color.end, end = "")
+      print(style.green + letter.upper() + style.end, end = "")
     else:
-      print(color.blue + color.bold + letter.upper() + color.end, end = "")
+      print(style.blue + style.bold + letter.upper() + style.end, end = "")
     if letter != alphabet[-1]:
       print(" ", end = "")
   print()
@@ -272,7 +271,7 @@ def ratio(a, b):
   return result
 
 def move_cursor():
-  nothing_yet = 2.0
+  nothing_yet = 3.0
 
 #MAIN LOGIC
 if __name__ == "__main__":
@@ -295,13 +294,13 @@ if __name__ == "__main__":
       print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed)
 
       if win(word_guessed):
-        highlight(color.bold + "You won the game! Congrats!" + color.end)
+        highlight(style.bold + "You won the game! Congrats!" + style.end)
         games_won += 1
         games_played += 1
         total_guesses += len(characters_guessed)
       elif lose(lives_left):
-        highlight(color.bold + "You lost." + color.end)
-        print("The word was: " + color.red + word + color.end)
+        highlight(style.bold + "You lost." + style.end)
+        print("The word was: " + style.red + word + style.end)
         games_lost += 1
         games_played += 1
       print()
