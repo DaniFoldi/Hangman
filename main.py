@@ -25,7 +25,7 @@ import sys
 version = "v2.4"
 lives_max = 10
 alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-categories = ["Animals", "Atoms", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "Random", "School", "Tech"]
+categories = ["Animals", "Atoms", "Buildings", "Cars", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "Random", "School", "Tech"]
 
 #HANGMANIMATION
 
