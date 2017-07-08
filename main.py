@@ -70,6 +70,7 @@ word_guessed = []
 lives_left = 0
 word_list = []
 random_mode = False
+word_cooldown = []
 
 #FUNCTIONS
 
@@ -143,10 +144,13 @@ def choose_category(categories):
     selected_category = choose_category(categories)
   return selected_category
 
-def choose_word(word_list):
+def choose_word(word_list, word_cooldown):
   word = random.choice(word_list).upper()
-  word_guessed = reset_word(word)
-  return word, word_guessed
+  if word in word_cooldown:
+    word = choose_word(word_list, word_cooldown)
+  word_cooldown.insert(0, word)
+  word_cooldown = word_cooldown[:25]
+  return word, word_cooldown
 
 def choose_word_list(categories):
   if len(sys.argv) > 1:
@@ -313,7 +317,8 @@ if __name__ == "__main__":
         print_inline("Category: ")
         highlight(selected_category)
 
-      word, word_guessed = choose_word(word_list)
+      word, word_cooldown = choose_word(word_list, word_cooldown)
+      word_guessed = reset_word(word)
 
       while not(win(word_guessed) or lose(lives_left)):
         print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed)
