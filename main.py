@@ -146,7 +146,7 @@ def choose_category(categories):
 
 def choose_word(word_list, word_cooldown):
   word = random.choice(word_list).upper()
-  if word in word_cooldown and len(word_list) > 25:
+  if word in word_cooldown and len(word_list) > 25 and selected_category != "Debug" and not random_mode:
     word = choose_word(word_list, word_cooldown)
   else:
     word_cooldown.insert(0, word)
