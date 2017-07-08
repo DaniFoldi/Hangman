@@ -22,7 +22,7 @@ import sys
 
 #CONSTANTS
 
-version = "v2.4"
+version = "v2.8"
 lives_max = 10
 alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 categories = ["Animals", "Atoms", "Buildings", "Cars", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "Random", "School", "Tech"]
@@ -228,6 +228,8 @@ def guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left):
         if not char_in_word:
           lives_left -= 1
         characters_guessed.append(character.upper())
+      if win(word_guessed) or lose(lives_left):
+        return lives_left, word_guessed, characters_guessed
     return lives_left, word_guessed, characters_guessed
   else:
     error("Incorrect guess")
@@ -349,7 +351,7 @@ if __name__ == "__main__":
       print_state(lives_left, lives_max, word_guessed, alphabet, characters_guessed)
 
       if win(word_guessed):
-        highlight(style.bold + "You won the game! Congrats!" + style.end)
+        highlight(style.bold + "You won! Congrats!" + style.end)
         games_won += 1
         games_played += 1
         total_guesses += len(characters_guessed)
