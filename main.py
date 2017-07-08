@@ -22,7 +22,7 @@ import sys
 
 #CONSTANTS
 
-version = "v2.3"
+version = "v2.4"
 lives_max = 10
 alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 categories = ["Animals", "Atoms", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "Random", "School", "Tech"]
@@ -45,11 +45,11 @@ hangman_states = [
 #COLORED PRINTING (ONLY UNIX-BASED)
 
 class style:
-  pink = "\033[95m"
-  blue = "\033[94m"
-  green = "\033[92m"
-  yellow = "\033[93m'"
   red = "\033[91m"
+  pink = "\033[95m"
+  yellow = "\033[93m"
+  green = "\033[92m"
+  blue = "\033[94m"
   bold = "\033[1m"
   underline = "\033[4m"
   end = "\033[0m"
@@ -234,7 +234,10 @@ def print_word(word_guessed):
 def print_guesses(alphabet, characters_guessed):
   for letter in alphabet:
     if letter in characters_guessed:
-      print_inline(style.green + letter.upper() + style.end)
+      if letter in word:
+        print_inline(style.green + letter.upper() + style.end)
+      else:
+        print_inline(style.red + letter.upper() + style.end)
     else:
       print_inline(style.blue + style.bold + letter.upper() + style.end)
     if letter != alphabet[-1]:
