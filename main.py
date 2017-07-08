@@ -193,6 +193,11 @@ def guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left):
   print("Please input your guess")
   char = get_text("")
   char = char.upper()
+  all_chars_correct = True
+  if len(char) > 1:
+    for character in char:
+      if character not in alphabet:
+        all_chars_correct = False
   if char in alphabet:
     if char in characters_guessed:
       error("Letter already guessed")
@@ -212,6 +217,18 @@ def guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left):
     for i in range(len(word)):
       word_guessed[i] = word[i]
       return lives_left, word, characters_guessed
+  elif len(char) > 1 and all_chars_correct:
+    for character in char:
+      if character not in characters_guessed:
+        char_in_word = False
+        for i in range(len(word)):
+          if word[i] == character:
+            word_guessed[i] = character
+            char_in_word = True
+        if not char_in_word:
+          lives_left -= 1
+        characters_guessed.append(character.upper())
+    return lives_left, word_guessed, characters_guessed
   else:
     error("Incorrect guess")
     lives_left, word_guessed, characters_guessed = guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left)
