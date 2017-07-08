@@ -169,7 +169,7 @@ def choose_word_list(categories):
       return word_list, selected_category, False
     elif sys.argv[1] == "debug":
       selected_category = "Debug"
-      word_list = ["TEST word - ALL specials"]
+      word_list = [sys.argv[2]]
       return word_list, selected_category, False
     
   selected_category = choose_category(categories)
@@ -208,6 +208,10 @@ def guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left):
         lives_left -= 1
       characters_guessed.append(char.upper())
       return lives_left, word_guessed, characters_guessed
+  elif char == word:
+    for i in range(len(word)):
+      word_guessed[i] = word[i]
+      return lives_left, word, characters_guessed
   else:
     error("Incorrect guess")
     lives_left, word_guessed, characters_guessed = guess_letter(alphabet, characters_guessed, word, word_guessed, lives_left)
