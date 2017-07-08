@@ -22,7 +22,7 @@ import sys
 
 #CONSTANTS
 
-version = "v2.2"
+version = "v2.3"
 lives_max = 10
 alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 categories = ["Animals", "Atoms", "Cars", "City", "Colors", "Countries", "Family", "House", "Impossible", "Meals", "Movies", "Music", "Random", "School", "Tech"]
@@ -164,8 +164,8 @@ def choose_word_list(categories):
       return word_list, selected_category, False
     elif sys.argv[1] == "debug":
       selected_category = "Debug"
-      word_list = ["test word - all characters"]
-      return word_list, selected_category
+      word_list = ["TEST word - ALL specials"]
+      return word_list, selected_category, False
     
   selected_category = choose_category(categories)
   random_mode = False
@@ -298,7 +298,7 @@ if __name__ == "__main__":
     error("Windows is not supported right now")
     sys.exit(1)
   else:
-    header("Welcome to the Ultimate Hangman " + version)
+    header("Welcome to the Ultimate Hangman {}".format(version))
     word_list, selected_category, random_mode = choose_word_list(categories)
     while True:
       print()
