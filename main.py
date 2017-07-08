@@ -146,10 +146,11 @@ def choose_category(categories):
 
 def choose_word(word_list, word_cooldown):
   word = random.choice(word_list).upper()
-  if word in word_cooldown:
+  if word in word_cooldown and len(word_list) > 25:
     word = choose_word(word_list, word_cooldown)
-  word_cooldown.insert(0, word)
-  word_cooldown = word_cooldown[:25]
+  else:
+    word_cooldown.insert(0, word)
+    word_cooldown = word_cooldown[:25]
   return word, word_cooldown
 
 def choose_word_list(categories):
